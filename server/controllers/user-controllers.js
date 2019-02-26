@@ -15,19 +15,22 @@ module.exports = {
                     role: result.role,
                     token: hash.jwtEncode({
                         id: result._id,
-                        username: result.username
+                        username: result.username,
+                        role: result.role,
                     })
                 })
             } else {
                 res.status(400).json({
-                    message: "Password is wrong"
+                    message: "Password is wrong",
+                    data: err
                 })
             }
         })
         .catch(err => {
-            console.log(err);
+            console.log(`sadsadsa`,err);
             res.status(500).json({
-                err: err
+                err: err,
+                msg: `Not Register`
             })
         })
     },
@@ -66,13 +69,12 @@ module.exports = {
     },
 
     getUser : (req, res) =>{
-        console.log(`masuk`, req.decoded.id);
         User.findById({
             _id: req.decoded.id
         })
         .then(result =>{
             let user = {
-                username: result.username,
+                user: result.username,
                 _id: result._id,
                 roles: result.roles
             }

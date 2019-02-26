@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const upload = require('../helpers/picture')
+const {isLogin} = require('../middlewares/auth')
 const {addHome, savePlan, saveFront, findHome, editHome, findAll, deleteHome} = require('../controllers/home-controllers')
 
-router.post('/', addHome)
-router.get('/:id', findHome)
-router.put('/:id', editHome)
+router.post('/', isLogin, addHome)
+router.get('/:id', isLogin, findHome)
+router.put('/:id', isLogin, editHome)
 router.get('/', findAll)
-router.delete('/:id', deleteHome)
-router.patch('/plan/:id', savePlan)
-router.patch('/front/:id', saveFront)
+router.delete('/:id', isLogin, deleteHome)
+router.patch('/plan/:id', isLogin, savePlan)
+router.patch('/front/:id', isLogin, saveFront)
 
 router.post('/upload',
     upload.multer.single('image'), 

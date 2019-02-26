@@ -5,6 +5,7 @@ import store from "./store"
 import Argon from "./plugins/argon-kit";
 import VueScrollTo from 'vue-scrollto';
 import wysiwyg from "vue-wysiwyg";
+import Axios from 'axios'
 import { ClientTable} from 'vue-tables-2';
 import Notifications from 'vue-notification'
 
@@ -25,6 +26,12 @@ Vue.use(VueScrollTo, {
   x: false,
   y: true
 })
+
+Vue.prototype.$http = Axios;
+const token = localStorage.getItem('token')
+if(token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
 
 Vue.config.productionTip = false;
 Vue.use(Argon);

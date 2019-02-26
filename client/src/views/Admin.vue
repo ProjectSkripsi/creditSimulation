@@ -1,14 +1,14 @@
 <template>
-    <div class="admin">
+    <div class="admin" v-show="isLoggedIn">
         <header class="header-global mb-5">
-            <base-nav class="navbar-main" transparent type="info" effect="transparent" expand>
+            <base-nav class="navbar-main" transparent type="primary" effect="transparent" expand>
                 <a slot="brand" class="navbar-brand mr-lg-5" href="/">
-                    <img src="img/brand/perumnas-navbar.png">Dashboard
+                    <img src="img/brand/perumnas-navbar.png"> 
                 </a>
                 <div class="row" slot="content-header" slot-scope="{closeMenu}">
                     <div class="col-6 collapse-brand">
                         <a href="#">
-                            <img src="img/brand/blue.png">
+                            <img src="img/brand/perumnas-navbar.png">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -19,10 +19,10 @@
                     <base-dropdown tag="li" class="nav-item">
                         <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
                             <i class="ni ni-collection d-lg-none"></i>
-                            <span class="nav-link-inner--text">user.name </span>
+                            <span class="nav-link-inner--text">{{user}}</span>
                         </a>
-                        <router-link to="/dashboard" class="dropdown-item">Dashboard</router-link>
-                        <a href="#"  @click.prevent="doLogout"><router-link to="/" class="dropdown-item">  Logout </router-link></a>
+                        <router-link to="/" class="dropdown-item">Home</router-link>
+                        <a href="/"  @click.prevent="doLogout"><router-link to="/" class="dropdown-item">  Logout </router-link></a>
                     </base-dropdown>
                 </ul>
             </base-nav>
@@ -48,6 +48,7 @@
                                     <div id="tabel" v-cloak>
                                         <v-client-table :columns="columns" :data="allHome" :options="options">
                                             <template slot="Tindakan" slot-scope="props" class="text-center">
+                                                <a @click.prevent="view(props.row)" href="" class="fa fa-pencil-square-o"></a> &nbsp;
                                                 <a @click.prevent="view(props.row)" href="" class="fa fa-eye"></a> &nbsp;
                                                 <a @click.prevent="handleDelete(props.row._id)" href="" class="fa fa-trash-o"></a>&nbsp;
                                             </template>
@@ -196,7 +197,7 @@
                                     <template slot="title">
                                         <i class="fa fa-user" aria-hidden="true"></i> Data Visitor
                                     </template>
-                                    Halooo
+                                    <visitor/>
                                 </tab-pane>
                             </card>
                         </tabs>
@@ -245,19 +246,51 @@
                                 <th>Price</th>
                                 <td> {{ viewData.price }}</td>
                             </tr>
-                            
                         </tbody>
-                    
                     </table>
                     <label>Spesifikasi: </label>
                         <card id="wizi" v-html="viewData.specification"> </card>
-
                 </template>
             </card>
         </modal>
-
-
-
+        <footer class="footer has-cards">
+            <div class="container">
+                <div class="row row-grid align-items-center my-md">
+                    <div class="col-lg-6">
+                        <h4 class="text-primary font-weight-light mb-2">PERUMNAS REGIONAL 7</h4>
+                        <h6 class="mb-0 font-weight-light">JL. Letjen Hertasning Kassi-Kassi Rappocini<br> Makassar Sulawesi Selatan 90222
+                        <br> Tel. +62 411 845 121 <br> Fax. +62 411 862 238 <br>
+                            customer.regional7@perumnas.co.id</h6>
+                    </div>
+                    <div class="col-lg-6 text-lg-center btn-wrapper">
+                        <a target="_blank" rel="noopener" href="https://twitter.com/perumnas_reg7"
+                        class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg" data-toggle="tooltip"
+                        data-original-title="Follow us">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a target="_blank" rel="noopener" href="https://www.facebook.com/niaga.perumnastujuh/"
+                        class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg" data-toggle="tooltip"
+                        data-original-title="Like us">
+                            <i class="fa fa-facebook-square"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <div class="row align-items-center justify-content-md-between">
+                    <div class="col-md-6">
+                        <div class="copyright">
+                            &copy; {{year}}
+                            <a href="http://reg7.perumnas.co.id/" target="_blank" rel="noopener">Perumnas</a>.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="nav nav-footer justify-content-end">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </template>
 
@@ -268,9 +301,11 @@ import CloseButton from "@/components/CloseButton";
 import BaseDropdown from "@/components/BaseDropdown";
 import Tabs from "@/components/Tabs/Tabs.vue";
 import axios from 'axios'
+import Visitor from "./components/visitor";
 import TabPane from "@/components/Tabs/TabPane.vue";
 import {mapActions, mapState} from 'vuex'
-const baseUrl = `http://localhost:3000`
+const baseUrl = `http://35.187.245.180`
+// const baseUrl = `http://localhost:3000`
 export default {
     components: {
         BaseNav,
@@ -278,11 +313,13 @@ export default {
         BaseDropdown,
         Tabs,
         TabPane,
-        Modal
+        Modal,
+        Visitor
     },
 
     data() {
         return {
+            year: new Date().getFullYear(),
             plan: '',
             frontView: '',
             modals: {
@@ -304,7 +341,7 @@ export default {
                 },
                 requestAdapter(data) {
                     return {
-                        sort: data.orderBy ? data.orderBy : 'Jenis',
+                        sort: data.orderBy ? data.orderBy : 'type',
                         direction: data.ascending ? 'asc' : 'desc'
                     }
                 },
@@ -333,6 +370,10 @@ export default {
             this.frontView = link.target.files[0]
         },
 
+        doLogout(){
+            this.$store.dispatch('logout')
+        },
+
         saveFront(id){
             if(this.plan === ''){
                 this.$notify({
@@ -352,6 +393,9 @@ export default {
                         data: {
                             frontView: response.data.link
                         },
+                        headers: {
+                            token: localStorage.getItem('token')
+                        }
                     })
                     .then(res =>{
                         this.$store.dispatch('getHome')
@@ -403,6 +447,9 @@ export default {
                         data: {
                             plan: response.data.link
                         },
+                        headers: {
+                            token: localStorage.getItem('token')
+                        }
                     })
                     .then(res =>{
                         this.$store.dispatch('getHome')
@@ -436,8 +483,6 @@ export default {
         },
 
         handleSave(){
-            console.log(this.home.type);
-            
             if(this.home.type === undefined || this.home.homeType === undefined || this.home.buildingArea === undefined || this.home.surfaceArea === undefined || this.home.manyToilet === undefined|| this.home.price === undefined){
                 this.$notify({
                     group: 'foo',
@@ -445,11 +490,15 @@ export default {
                     type: 'warn',
                     text: 'Silahkan mengisi data dengan lengkap',
                 });
+                this.home = {}
             } else {
                 axios({
                     url: baseUrl + `/api/home`,
                     method: 'post',
-                    data: this.home
+                    data: this.home,
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
                 })
                 .then(response =>{
                     this.home = {}
@@ -467,7 +516,7 @@ export default {
                         group: 'foo',
                         title: 'Pemberitahuan!',
                         type: 'warning',
-                        text: 'Gagal menambahkan data rumah',
+                        text: 'Gagal menambahkan data rumah, Silahkan relogin!',
                         duration: 3000,
                     });
                 })
@@ -476,7 +525,7 @@ export default {
 
         handleDelete(id){
             swal({
-                itle: "Warning",
+                title: "Warning",
                 text: "Yakin hapus data rumah?",
                 icon: "warning",
                 buttons: true,
@@ -486,7 +535,10 @@ export default {
                 if(willDelete){
                     axios({
                         url: baseUrl + `/api/home/${id}`,
-                        method: `delete`
+                        method: `delete`,
+                        headers: {
+                            token: localStorage.getItem('token')
+                        }
                     })
                     .then(response =>{
                         this.$store.dispatch('getHome')
@@ -503,7 +555,7 @@ export default {
                             group: 'foo',
                             title: 'Pemberitahuan!',
                             type: 'error',
-                            text: 'Gagal menghapus, Silahkan coba beberapa saat lagi',
+                            text: 'Gagal menghapus, Silahkan login dahulu',
                             duration: 3000,
                         });
                     })
@@ -529,7 +581,10 @@ export default {
     },
 
     computed: {
-        ...mapState(['allHome'])
+        ...mapState(['allHome', 'user']),
+        isLoggedIn : function(){
+            return this.$store.getters.isLoggedIn
+        }
     },
 
     mounted() {

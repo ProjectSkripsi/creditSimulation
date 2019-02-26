@@ -40,6 +40,7 @@
                 </div>
             </div>
         </div>
+        <div id="recom"></div>
     </section>
 </template>
 <script>
