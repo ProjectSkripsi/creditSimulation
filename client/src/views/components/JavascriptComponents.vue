@@ -1,8 +1,6 @@
 <template>
     <section class="section section-components">
-      <!-- <div class="container"> -->
-        <tabs-section></tabs-section>
-      <!-- </div> -->
+      <tabs-section></tabs-section>
     </section>
 </template>
 <script>

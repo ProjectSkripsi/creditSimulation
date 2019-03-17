@@ -4,7 +4,6 @@ import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
 import Components from "./views/Components.vue";
 import Admin from "./views/Admin.vue";
-import Landing from "./views/Landing.vue";
 
 Vue.use(Router);
 

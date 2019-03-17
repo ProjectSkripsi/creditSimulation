@@ -138,14 +138,20 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <p class="description">Lama Kredit: </p>
+                                            <p class="description">Lama Kredit(Tahun): </p>
                                             <input type="number" class="form-control form-control-alternative" v-model="visit.tenor" placeholder="Lama Kredit">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Status Kredit Akhir: </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.statusKredit" placeholder="Lancar/Macet">
+                                            <select class="form-control form-control-alternative" v-model="visit.statusKredit">
+                                                <option value="">Pilih</option>
+                                                <option value="Dalam Perhatian Khusus">Dalam Perhatian Khusus</option>
+                                                <option value="Kredit Diragukan">Kredit Diragukan</option>
+                                                <option value="Kredit Lancar">Kredit Lancar</option>
+                                                <option value="Kredit Tidak Lancar">Kredit Tidak Lancar</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div><hr>

@@ -159,7 +159,7 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <input type="number" v-model="home.bedroom" class="form-control form-control-alternative" placeholder="Jumlah Kamar">
+                                                    <input type="number" min="1" v-model="home.bedroom" class="form-control form-control-alternative" placeholder="Jumlah Kamar">
                                                 </div>
                                             </div>
                                         </div>
@@ -169,7 +169,7 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <input type="number" v-model="home.manyToilet" class="form-control form-control-alternative" placeholder="Jumlah WC">
+                                                    <input type="number" min="1" v-model="home.manyToilet" class="form-control form-control-alternative" placeholder="Jumlah WC">
                                                 </div>
                                             </div>
                                         </div>
