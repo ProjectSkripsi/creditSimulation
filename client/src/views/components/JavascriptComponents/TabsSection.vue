@@ -206,8 +206,8 @@ import axios from 'axios'
 import Tabs from "@/components/Tabs/Tabs.vue";
 import TabPane from "@/components/Tabs/TabPane.vue";
 import {mapActions, mapState} from 'vuex'
-// const baseUrl = `http://35.187.245.180`
-const baseUrl = `http://localhost:3000`
+const baseUrl = `http://35.187.245.180`
+// const baseUrl = `http://localhost:3000`
 export default {
     components: {
         Tabs,
