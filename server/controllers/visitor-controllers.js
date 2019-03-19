@@ -56,4 +56,35 @@ module.exports = {
             res.status(500).json(err)
         })
     },
+
+    calcSimulasi: (req, res) =>{
+        Visitor.findOneAndUpdate({
+            _id: req.params.id
+        },{
+            c1: req.body.c1,
+            c2: req.body.c2,
+            c3: req.body.c3,
+            c4: req.body.c4,
+            total: req.body.total,
+        })
+        .then(response =>{
+            res.status(201).json(response)
+        })
+        .catch(err =>{
+            res.status(500).json(err)
+        })
+    },
+
+    getVisitor: (req, res) =>{
+        Visitor.findById({
+            _id: req.params.id
+        })
+        .then(response =>{
+            res.status(201).json(response)
+        })
+        .catch(err =>{
+            res.status(500).json(err)
+        })
+    },
+
 }

@@ -10,6 +10,11 @@ const visitorSchema = new Schema({
     tanggungan: Number,
     tenor: Number,
     statusKredit: String,
+    c1: Number,
+    c2: Number,
+    c3: Number,
+    c4: Number,
+    total: Number,
     deleteAt:{
         type: Date,
         default: null

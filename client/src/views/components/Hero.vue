@@ -36,11 +36,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center justify-content-around stars-and-coded">
+                <div class="row align-items-center justify-content-around stars-and-coded" id="recom">
                 </div>
             </div>
         </div>
-        <div id="recom"></div>
+        <!-- <div id="recom"></div> -->
     </section>
 </template>
 <script>

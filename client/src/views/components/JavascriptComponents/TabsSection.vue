@@ -1,6 +1,6 @@
 <template>
 <div>
-    <section class="section bg-secondary" v-show="result !== '' ">
+    <div class="bg-secondary" v-show="result !== '' ">
         <div class="container">
             <card id="result">
                 <div class="text-center">
@@ -31,11 +31,11 @@
                                     </tr>
                                     <tr>
                                         <th>Luas Bangunan</th>
-                                        <td> {{ result.buildingArea }}</td>
+                                        <td> {{ result.buildingArea }} m2</td>
                                     </tr>
                                     <tr>
                                         <th>Luas Tanah</th>
-                                        <td> {{ result.surfaceArea }}</td>
+                                        <td> {{ result.surfaceArea }} m2</td>
                                     </tr>
                                     <tr>
                                         <th>Kamar</th>
@@ -75,9 +75,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <table class="table table-bordered" v-show="this.smartResult !== {}">
+                            <tr>
+                                <th class="bg-secondary">Proker</th>
+                                <th class="bg-secondary">K1</th>
+                                <th class="bg-secondary">K2</th>
+                                <th class="bg-secondary">K3</th>
+                                <th class="bg-secondary">K4</th>
+                                <th class="bg-secondary">C1</th>
+                                <th class="bg-secondary">C2</th>
+                                <th class="bg-secondary">C3</th>
+                                <th class="bg-secondary">C4</th>
+                                <th class="bg-secondary">Total</th>
+                            </tr>
+                            <tr>
+                                <td>{{smartResult.name}}</td>
+                                <td>{{smartResult.income}}</td>
+                                <td>{{smartResult.tanggungan}}</td>
+                                <td>{{smartResult.tenor * 12}}</td>
+                                <td>{{smartResult.statusKredit}}</td>
+                                <td>{{smartResult.c1}}</td>
+                                <td>{{smartResult.c2}}</td>
+                                <td>{{smartResult.c3}}</td>
+                                <td>{{smartResult.c4}}</td>
+                                <td>{{smartResult.total}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </card>
         </div>
-    </section>
+    </div>
     <div class="container">
         <h3 class="h4 text-success font-weight-bold mb-4 pt-5">Simulasi</h3>
         <div class="row justify-content-center" id="simulasi">
@@ -87,7 +117,7 @@
                     <small class="text-uppercase font-weight-bold"></small>
                 </div>
                 <tabs fill class="flex-column flex-md-row">
-                    <card shadow slot-scope="{activeTabIndex}">
+                    <card shadow >
                         <tab-pane key="tab1">
                             <template slot="title">
                                 <i class="fa fa-calculator" aria-hidden="true"></i> Simulasi
@@ -139,7 +169,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Lama Kredit(Tahun): </p>
-                                            <input type="number" class="form-control form-control-alternative" v-model="visit.tenor" placeholder="Lama Kredit">
+                                            <input type="number" min="5" class="form-control form-control-alternative" v-model="visit.tenor" placeholder="Lama Kredit">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -176,8 +206,8 @@ import axios from 'axios'
 import Tabs from "@/components/Tabs/Tabs.vue";
 import TabPane from "@/components/Tabs/TabPane.vue";
 import {mapActions, mapState} from 'vuex'
-const baseUrl = `http://35.187.245.180`
-// const baseUrl = `http://localhost:3000`
+// const baseUrl = `http://35.187.245.180`
+const baseUrl = `http://localhost:3000`
 export default {
     components: {
         Tabs,
@@ -186,11 +216,14 @@ export default {
     data() {
         return {
             visit: {},
-            result: ''
+            result: '',
+            simulate: {},
+            smartResult: {},
         }
     },
     computed: {
-        ...mapState(['allHome'])
+        ...mapState(['allHome']),
+        
     },
 
     mounted() {
@@ -218,11 +251,91 @@ export default {
                     data: this.visit
                 })
                 .then(response =>{
-                    this.visit = {}
-                    let random = Math.floor(Math.random() * this.allHome.length);
-                    // console.log(random);
+                    let user = response.data._id
+                    let income = response.data.income
+                    let tanggung = response.data.tanggungan
+                    let durasi = response.data.tenor * 12
+                    let status = response.data.statusKredit
+                    this.simulate.k1 = income
+                    this.simulate.k2 = tanggung
+                    this.simulate.k3 = durasi
+                    this.simulate.k4 = status
+                    if(income >= 8000001){
+                        this.simulate.c1 = 0.457
+                    } else if(income <= 8000000 && income >= 6000001) {
+                        this.simulate.c1 = 0.257
+                    } else if(income <= 6000000 && income >= 4000001) {
+                        this.simulate.c1 = 0.157
+                    } else if(income <= 4000000 && income >= 3000001) {
+                        this.simulate.c1 = 0.09
+                    } else if(income <= 3000000 && income >= 2000000) {
+                        this.simulate.c1 = 0.004
+                    } else {
+                        this.simulate.c1 = 0
+                    }
+
+                    if(tanggung > 4){
+                        this.simulate.c2 = 0.111
+                    } else if(tanggung >= 3 && tanggung <= 4){
+                        this.simulate.c2 = 0.278
+                    } else if(tanggung >= 0 && tanggung <= 2){
+                        this.simulate.c2 = 0.611
+                    }
+
+                    if(durasi > 180){
+                        this.simulate.c3 = 0.611
+                    } else if(durasi >= 121 && durasi <= 180){
+                        this.simulate.c3 = 0.278
+                    } else if(durasi >= 72 && durasi <= 120){
+                        this.simulate.c3 = 0.111
+                    } else {
+                        this.simulate.c3 = 0
+                    }
+
+                    if(status === 'Kredit Lancar'){
+                        this.simulate.c4 = 0.521
+                    } else if(status === 'Kredit Diragukan'){
+                        this.simulate.c4 = 0.271
+                    } else if(status === 'Dalam Perhatian Khusus'){
+                        this.simulate.c4 = 0.116
+                    } else if(status === 'Kredit Tidak Lancar'){
+                        this.simulate.c4 = 0.063
+                    }
+                    this.simulate.total = this.simulate.c1 + this.simulate.c2 + this.simulate.c3 + this.simulate.c4
+                    axios({
+                        url: baseUrl + `/api/visitor/${user}`,
+                        method: `put`,
+                        data: this.simulate
+                    })
+                    .then(result =>{
+                        let simId = result.data._id
+                        axios({
+                            url: baseUrl + `/api/visitor/result/${simId}`,
+                            method: `get`
+                        })
+                        .then(response =>{
+                            this.smartResult = response.data
+                            for(let i in this.allHome){
+                                if(this.smartResult.total >= 1.40 && this.allHome[i].price >= 600000000){
+                                    this.result = this.allHome[i]
+                                } else if((this.smartResult.total >= 1.10 && this.smartResult.total <= 1.30 )&& (this.allHome[i].price >= 370000000 && this.allHome[i].price < 600000000)){
+                                    this.result = this.allHome[i]
+                                } else if((this.smartResult.total >= 0.800 && this.smartResult.total <= 1.00 )&& (this.allHome[i].price >= 300000000 && this.allHome[i].price < 370000000)){
+                                    this.result = this.allHome[i]
+                                } else if((this.smartResult.total >= 0.500 && this.smartResult.total <= 0.700 )&& (this.allHome[i].price >= 250000000 && this.allHome[i].price < 300000000)){
+                                    this.result = this.allHome[i]
+                                } else if((this.smartResult.total >= 0.200 && this.smartResult.total <= 0.400 )&& (this.allHome[i].price >= 180000000 && this.allHome[i].price < 250000000)){
+                                    this.result = this.allHome[i]
+                                }
+                            }  
+                            console.log(this.smartResult);
+                            
+                        })
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                    })
                     
-                    this.result = this.allHome[random]
                 })
                 .catch(err =>{
                     console.log(`errrrr`,err);
@@ -232,7 +345,6 @@ export default {
         },
 
         toIdr(a){
-            // return (a/1000).toFixed(3);
            return "IDR " + a.toString().replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1\.")
         }
     },

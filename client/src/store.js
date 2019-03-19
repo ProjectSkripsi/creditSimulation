@@ -96,7 +96,7 @@ export default new Vuex.Store({
 			.catch(err =>{
                 commit('SET_USER', '')
                 commit('logout')
-                console.log(err);
+                // console.log(err);
                 
 			})
         },
