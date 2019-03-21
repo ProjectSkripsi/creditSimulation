@@ -3,9 +3,10 @@
     <div class="bg-secondary" v-show="result !== '' ">
         <div class="container">
             <card id="result">
-                <div class="text-center">
-                <h6>Rekomendasi Rumah</h6>
-                </div> <hr>
+                <div class="alert alert-primary text-center" role="alert">
+                    <label class="myhome">Rekomendasi Rumah</label>
+                </div>
+                <hr>
                 <div class="row row-grid align-items-center" >
                     <div class="col-md-6">
                         <div class="card bg-default shadow border-0">
@@ -47,7 +48,7 @@
                                     </tr>
                                     <tr>
                                         <th>Price</th>
-                                        <td> Rp {{ (result.price) }}</td>
+                                        <td> {{ result.price }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -74,35 +75,335 @@
                             <p v-html="result.specification"></p>
                         </div>
                     </div>
-                </div>
+                </div> <hr>
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <table class="table table-bordered" v-show="this.smartResult !== {}">
-                            <tr>
-                                <th class="bg-secondary">Proker</th>
-                                <th class="bg-secondary">K1</th>
-                                <th class="bg-secondary">K2</th>
-                                <th class="bg-secondary">K3</th>
-                                <th class="bg-secondary">K4</th>
-                                <th class="bg-secondary">C1</th>
-                                <th class="bg-secondary">C2</th>
-                                <th class="bg-secondary">C3</th>
-                                <th class="bg-secondary">C4</th>
-                                <th class="bg-secondary">Total</th>
-                            </tr>
-                            <tr>
-                                <td>{{smartResult.name}}</td>
-                                <td>{{smartResult.income}}</td>
-                                <td>{{smartResult.tanggungan}}</td>
-                                <td>{{smartResult.tenor * 12}}</td>
-                                <td>{{smartResult.statusKredit}}</td>
-                                <td>{{smartResult.c1}}</td>
-                                <td>{{smartResult.c2}}</td>
-                                <td>{{smartResult.c3}}</td>
-                                <td>{{smartResult.c4}}</td>
-                                <td>{{smartResult.total}}</td>
-                            </tr>
-                        </table>
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Kriteria
+                            </div>
+                        <div class="table-responsive-sm">
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Kriteria</th>
+                                    <th class="bg-secondary text-center">Prioritas</th>
+                                    <th class="bg-secondary text-center" colspan="2">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>Status Kredit</td>
+                                    <td class="text-center">4</td>
+                                    <td class="text-center">(1/4)/4</td>
+                                    <td class="text-center">0.063</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>Lama Kredit</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">(1/3+1/4)/4</td>
+                                    <td class="text-center">0.116</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>Jumlah Tanggungan</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">(1/2+1/3+1/4)/4</td>
+                                    <td class="text-center">0.271</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>Total Pendapatan</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">(1+1/2+1/3+1/4)/4</td>
+                                    <td class="text-center">0.521</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive-sm">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Sub Kriteria Pendapatan
+                            </div>
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Total Pendapatan</th>
+                                    <th class="bg-secondary text-center">Prioritas</th>
+                                    <th class="bg-secondary text-center" colspan="2">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>2.000.000-3.000.0000</td>
+                                    <td class="text-center">5</td>
+                                    <td class="text-center">(1/5)/5</td>
+                                    <td class="text-center">0.004</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>3.000.001-4.000.0000</td>
+                                    <td class="text-center">4</td>
+                                    <td class="text-center">(1/4+1/5)/5</td>
+                                    <td class="text-center">0.09</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>4.000.001-6.000.0000</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">(1/3+1/4+1/5)/5</td>
+                                    <td class="text-center">0.157</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>6.000.001-8.000.0000</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">(1/2+1/3+1/4+1/5)/5</td>
+                                    <td class="text-center">0.257</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5</td>
+                                    <td>> 8.000.001</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">(1+1/2+1/3+1/4+1/5)/5</td>
+                                    <td class="text-center">0.457</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive-sm">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Sub Kriteria Sasaran
+                            </div>
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Lama Kredit</th>
+                                    <th class="bg-secondary text-center">Prioritas</th>
+                                    <th class="bg-secondary text-center" colspan="2">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>72 – 120 Bulan</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">(1/3)/3</td>
+                                    <td class="text-center">0.111</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>121 – 180 Bulan</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">(1/2+1/3)/3</td>
+                                    <td class="text-center">0.278</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td> >180 Bulan</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">(1+1/2+1/3)/3</td>
+                                    <td class="text-center">0.611</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive-sm">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Sub Kriteria Jumlah Tanggungan
+                            </div>
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Jumlah Tanggungan</th>
+                                    <th class="bg-secondary text-center">Prioritas</th>
+                                    <th class="bg-secondary text-center" colspan="2">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td> > 4 Orang</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">(1/3)/3</td>
+                                    <td class="text-center">0.111</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>3 – 4 Orang</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">(1/2+1/3)/3</td>
+                                    <td class="text-center">0.278</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td> 0 – 2 Orang</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">(1+1/2+1/3)/3</td>
+                                    <td class="text-center">0.611</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive-sm">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Sub Kriteria Status Kredit
+                            </div>
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Status Kredit</th>
+                                    <th class="bg-secondary text-center">Prioritas</th>
+                                    <th class="bg-secondary text-center" colspan="2">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td> Kredit Tidak Lancar</td>
+                                    <td class="text-center">4</td>
+                                    <td class="text-center">(1/4)/4</td>
+                                    <td class="text-center">0.063</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>Dalam Perhatian Khusus</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">(1/3+1/4)/4</td>
+                                    <td class="text-center">0.116</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td> Kredit Diragukan</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">(1/2+1/3+1/4)/4</td>
+                                    <td class="text-center">0.271</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td> Kredit Lancar</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">(1+1/2+1/3+1/4)/4</td>
+                                    <td class="text-center">0.521</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive-sm">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Status Rumah
+                            </div>
+                            
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Range Harga</th>
+                                    <th class="bg-secondary text-center">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>0 - 250.000.000</td>
+                                    <td class="text-center">0.000 - 0.399</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>250.000.001 - 300.000.000</td>
+                                    <td class="text-center">0.400 - 0.799</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>300.000.001 - 370.000.000</td>
+                                    <td class="text-center">0.800 - 1.199</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>370.000.001 - 600.000.000</td>
+                                    <td class="text-center">1.200 - 1.599</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5</td>
+                                    <td>> 600.000.0001</td>
+                                    <td class="text-center">> 1.599</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Normalisasi Nilai Kriteria
+                            </div>
+                            
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary text-center">Nama</th>
+                                    <th class="bg-secondary text-center">K1</th>
+                                    <th class="bg-secondary text-center">K2</th>
+                                    <th class="bg-secondary text-center">K3</th>
+                                    <th class="bg-secondary text-center">K4</th>
+                                    <th class="bg-secondary text-center">C1</th>
+                                    <th class="bg-secondary text-center">C2</th>
+                                    <th class="bg-secondary text-center">C3</th>
+                                    <th class="bg-secondary text-center">C4</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">{{smartResult.name}}</td>
+                                    <td class="text-center">{{smartResult.income}}</td>
+                                    <td class="text-center">{{smartResult.tanggungan}}</td>
+                                    <td class="text-center">{{smartResult.tenor * 12}} Bulan</td>
+                                    <td class="text-center">{{smartResult.statusKredit}}</td>
+                                    <td class="text-center">{{smartResult.c1}}</td>
+                                    <td class="text-center">{{smartResult.c2}}</td>
+                                    <td class="text-center">{{smartResult.c3}}</td>
+                                    <td class="text-center">{{smartResult.c4}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Unity Nilai Kriteria
+                            </div>
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary text-center">C1</th>
+                                    <th class="bg-secondary text-center">C2</th>
+                                    <th class="bg-secondary text-center">C3</th>
+                                    <th class="bg-secondary text-center">C4</th>
+                                    <th class="bg-secondary text-center">Total</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">{{smartResult.c1}}</td>
+                                    <td class="text-center">{{smartResult.c2}}</td>
+                                    <td class="text-center">{{smartResult.c3}}</td>
+                                    <td class="text-center">{{smartResult.c4}}</td>
+                                    <td class="text-center">{{granTotal}}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </card>
@@ -219,6 +520,7 @@ export default {
             result: '',
             simulate: {},
             smartResult: {},
+            granTotal: ''
         }
     },
     computed: {
@@ -302,6 +604,9 @@ export default {
                         this.simulate.c4 = 0.063
                     }
                     this.simulate.total = this.simulate.c1 + this.simulate.c2 + this.simulate.c3 + this.simulate.c4
+                    let gtotal = this.simulate.total.toFixed(4)
+                    this.granTotal = gtotal
+
                     axios({
                         url: baseUrl + `/api/visitor/${user}`,
                         method: `put`,
@@ -316,19 +621,19 @@ export default {
                         .then(response =>{
                             this.smartResult = response.data
                             for(let i in this.allHome){
-                                if(this.smartResult.total >= 1.40 && this.allHome[i].price >= 600000000){
+                                if(this.smartResult.total >= 1.60 && this.allHome[i].price >= 600000000){
                                     this.result = this.allHome[i]
-                                } else if((this.smartResult.total >= 1.10 && this.smartResult.total <= 1.30 )&& (this.allHome[i].price >= 370000000 && this.allHome[i].price < 600000000)){
+                                } else if((this.smartResult.total >= 1.20 && this.smartResult.total < 1.60 )&& (this.allHome[i].price >= 370000000 && this.allHome[i].price < 600000000)){
                                     this.result = this.allHome[i]
-                                } else if((this.smartResult.total >= 0.800 && this.smartResult.total <= 1.00 )&& (this.allHome[i].price >= 300000000 && this.allHome[i].price < 370000000)){
+                                } else if((this.smartResult.total >= 0.800 && this.smartResult.total < 1.20 )&& (this.allHome[i].price >= 300000001 && this.allHome[i].price < 370000000)){
                                     this.result = this.allHome[i]
-                                } else if((this.smartResult.total >= 0.500 && this.smartResult.total <= 0.700 )&& (this.allHome[i].price >= 250000000 && this.allHome[i].price < 300000000)){
+                                } else if((this.smartResult.total >= 0.400 && this.smartResult.total < 0.800 )&& (this.allHome[i].price >= 250000001 && this.allHome[i].price <= 300000000)){
                                     this.result = this.allHome[i]
-                                } else if((this.smartResult.total >= 0.200 && this.smartResult.total <= 0.400 )&& (this.allHome[i].price >= 180000000 && this.allHome[i].price < 250000000)){
+                                } else if((this.smartResult.total >= 0.000 && this.smartResult.total < 0.400 )&& (this.allHome[i].price >= 0 && this.allHome[i].price <= 250000000)){
                                     this.result = this.allHome[i]
                                 }
                             }  
-                            console.log(this.smartResult);
+                            // console.log(this.smartResult);
                             
                         })
                     })
@@ -345,7 +650,7 @@ export default {
         },
 
         toIdr(a){
-           return "IDR " + a.toString().replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1\.")
+           return "Rp " + a.toString().replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1\.")
         }
     },
 
@@ -355,5 +660,9 @@ export default {
 .section{
     padding-bottom: 1rem;
 }
+.myhome{
+    font-size: 15px;
+}
 </style>
+
 
