@@ -48,7 +48,7 @@ export default {
                     email: 'Email',
                     income: 'Income',
                     tanggungan: 'Tanggungan',
-                    tenor: 'Tenor', 
+                    tenor: 'Tenor(Tahun)', 
                     statusKredit: 'Status Kredit',
                     _id: '_id',
                 },

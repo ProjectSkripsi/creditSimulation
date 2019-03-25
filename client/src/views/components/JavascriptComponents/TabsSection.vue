@@ -344,6 +344,49 @@
 
                 <div class="row mt-4">
                     <div class="col-md-12">
+                        <div class="table-responsive-sm">
+                            <div class="alert alert-primary text-center" role="alert">
+                               Pembobotan Tipe Rumah
+                            </div>
+                            
+                            <table class="table table-bordered" v-show="this.smartResult !== {}">
+                                <tr>
+                                    <th class="bg-secondary text-center">No</th>
+                                    <th class="bg-secondary">Tipe Rumah</th>
+                                    <th class="bg-secondary text-center">Bobot</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>RS.27</td>
+                                    <td class="text-center">0.000 - 0.399</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td>RS.30</td>
+                                    <td class="text-center">0.400 - 0.799</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3</td>
+                                    <td>RS.32</td>
+                                    <td class="text-center">0.800 - 1.199</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4</td>
+                                    <td>RS.36</td>
+                                    <td class="text-center">1.200 - 1.599</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5</td>
+                                    <td>RS.45</td>
+                                    <td class="text-center">> 1.599</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <div class="alert alert-primary text-center" role="alert">
                                Normalisasi Nilai Kriteria

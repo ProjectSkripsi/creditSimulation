@@ -48,7 +48,7 @@
                                     <div id="tabel" v-cloak>
                                         <v-client-table :columns="columns" :data="allHome" :options="options">
                                             <template slot="Tindakan" slot-scope="props" class="text-center">
-                                                <a @click.prevent="view(props.row)" href="" class="fa fa-pencil-square-o"></a> &nbsp;
+                                                <!-- <a @click.prevent="view(props.row)" href="" class="fa fa-pencil-square-o"></a> &nbsp; -->
                                                 <a @click.prevent="view(props.row)" href="" class="fa fa-eye"></a> &nbsp;
                                                 <a @click.prevent="handleDelete(props.row._id)" href="" class="fa fa-trash-o"></a>&nbsp;
                                             </template>
