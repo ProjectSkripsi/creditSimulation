@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="pl-md-5">
-                            <h3>Model {{result.type}}</h3><hr>
+                            <h3 class="text-center">Model {{result.type}}</h3><hr>
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
@@ -48,7 +48,7 @@
                                     </tr>
                                     <tr>
                                         <th>Price</th>
-                                        <td> {{ result.price }}</td>
+                                        <td>Rp {{ result.price }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -75,7 +75,90 @@
                             <p v-html="result.specification"></p>
                         </div>
                     </div>
-                </div> <hr>
+                </div> <hr />
+
+
+                <!-- Recomedation other -->
+                <div class="alert alert-warning text-center" role="alert">
+                        <label class="other">Rekomendasi Rumah Lainnya</label>
+                </div><br>
+                <div v-show="other === 'Rekomendasi lainnya tidak tersedia'">
+                    <h6 class="text-center">{{other}}</h6>
+                </div>
+                <br>
+                
+                <div v-show="other !== 'Rekomendasi lainnya tidak tersedia'">
+                    <div class="row row-grid align-items-center" >
+                        <div class="col-md-6">
+                            <div class="card bg-default shadow border-0">
+                                <img v-lazy="other.frontView" class="card-img-top">
+                                <blockquote class="card-blockquote">
+                                    <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 583 95"
+                                            class="svg-bg">
+                                        <polygon points="0,52 583,95 0,95" class="fill-default"></polygon>
+                                        <polygon points="0,42 583,95 683,0 0,95" opacity=".2" class="fill-default"></polygon>
+                                    </svg>
+                                    <h6 class="display-3 font-weight-bold text-white">Tampak Depan</h6>
+                                </blockquote> 
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pl-md-5">
+                                <h4 class="text-center">Model {{other.type}}</h4><hr>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>Tipe</th>
+                                            <td> {{ other.homeType }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Luas Bangunan</th>
+                                            <td> {{ other.buildingArea }} m2</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Luas Tanah</th>
+                                            <td> {{ other.surfaceArea }} m2</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Kamar</th>
+                                            <td> {{ other.bedroom }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Toilet</th>
+                                            <td> {{ other.manyToilet }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Price</th>
+                                            <td>Rp {{ other.price }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-grid align-items-center" >
+                        <div class="col-md-6">
+                            <div class="card bg-default shadow border-0">
+                                <img v-lazy="other.plan" class="card-img-top">
+                                <blockquote class="card-blockquote">
+                                    <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 583 95"
+                                            class="svg-bg">
+                                        <polygon points="0,52 583,95 0,95" class="fill-default"></polygon>
+                                        <polygon points="0,42 583,95 683,0 0,95" opacity=".2" class="fill-default"></polygon>
+                                    </svg>
+                                    <h6 class="display-3 font-weight-bold text-white">Denah</h6>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pl-md-5">
+                                <h3>Detil Spesifikasi</h3>
+                                <p v-html="other.specification"></p>
+                            </div>
+                        </div>
+                    </div> <br />
+                </div>
+
                 <div class="row mt-4">
                     <div class="col-md-12">
                             <div class="alert alert-primary text-center" role="alert">
@@ -471,13 +554,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Nama Lengkap: </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.name" placeholder="Nama Lengkap">
+                                            <input type="text" class="form-control form-control-alternative" v-model="name" placeholder="Nama Lengkap">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Alamat: </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.address" placeholder="Alamat">
+                                            <input type="text" class="form-control form-control-alternative" v-model="address" placeholder="Alamat">
                                         </div>
                                     </div>
                                 </div><hr>
@@ -485,13 +568,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">No. Handphone </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.contact" placeholder="No. Handphone">
+                                            <input type="text" class="form-control form-control-alternative" v-model="contact" placeholder="No. Handphone">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Email: </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.email" placeholder="Email">
+                                            <input type="email" class="form-control form-control-alternative" v-model="email" placeholder="Email" required>
                                         </div>
                                     </div>
                                 </div><hr>
@@ -499,13 +582,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Total Pendapatan: </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.income" placeholder="Total Pendapatan">
+                                            <input type="number" min="0" class="form-control form-control-alternative" v-model="income" placeholder="Total Pendapatan" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Jumlah Tanggungan: </p>
-                                            <input type="text" class="form-control form-control-alternative" v-model="visit.tanggungan" placeholder="Jumlah Tanggungan">
+                                            <input type="number" min="0" class="form-control form-control-alternative" v-model="tanggungan" placeholder="Jumlah Tanggungan">
                                         </div>
                                     </div>
                                 </div><hr>
@@ -513,13 +596,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Lama Kredit(Tahun): </p>
-                                            <input type="number" min="5" class="form-control form-control-alternative" v-model="visit.tenor" placeholder="Lama Kredit">
+                                            <input type="number" min="5" class="form-control form-control-alternative" v-model="tenor" placeholder="Lama Kredit">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <p class="description">Status Kredit Akhir: </p>
-                                            <select class="form-control form-control-alternative" v-model="visit.statusKredit">
+                                            <select class="form-control form-control-alternative" v-model="statusKredit">
                                                 <option value="">Pilih</option>
                                                 <option value="Dalam Perhatian Khusus">Dalam Perhatian Khusus</option>
                                                 <option value="Kredit Diragukan">Kredit Diragukan</option>
@@ -563,7 +646,16 @@ export default {
             result: '',
             simulate: {},
             smartResult: {},
-            granTotal: ''
+            granTotal: '',
+            name: '',
+            address: '',
+            contact: '',
+            email: '',
+            income:'',
+            tanggungan: '',
+            tenor: '',
+            statusKredit: '',
+            other: ''
         }
     },
     computed: {
@@ -577,23 +669,35 @@ export default {
 
     methods: {
         findCreate(){
-            if(this.visit.name === undefined || this.visit.address === undefined 
-            || this.visit.contact === undefined || this.visit.email === undefined 
-            || this.visit.income === undefined || this.visit.tanggungan === undefined 
-            || this.visit.tenor === undefined || this.visit.statusKredit === undefined ){
+            if(this.name === '' || this.address === '' 
+                || this.contact === '' || this.email === ''
+                || this.income === '' || this.tanggungan === '' 
+                || this.tenor === '' || this.statusKredit === '' 
+            ){
                 this.$notify({
                     group: 'foo',
                     title: 'Pemberitahuan!',
                     type: 'warn',
                     text: 'Silahkan mengisi data dengan lengkap',
                 });
-                this.visit = {}
+                
             } else {
                 this.result = ''
+                this.other = ''
+                let visit = {
+                    name: this.name,
+                    address: this.address,
+                    contact: this.contact,
+                    email: this.email,
+                    income: this.income,
+                    tanggungan: this.tanggungan,
+                    tenor: this.tenor,
+                    statusKredit: this.statusKredit
+                }
                 axios({
                     url: baseUrl + `/api/visitor`,
                     method: 'post',
-                    data: this.visit
+                    data: visit
                 })
                 .then(response =>{
                     let user = response.data._id
@@ -666,18 +770,21 @@ export default {
                             for(let i in this.allHome){
                                 if(this.smartResult.total >= 1.60 && this.allHome[i].price >= 600000000){
                                     this.result = this.allHome[i]
+                                    this.other = this.allHome[i-1]
                                 } else if((this.smartResult.total >= 1.20 && this.smartResult.total < 1.60 )&& (this.allHome[i].price >= 370000000 && this.allHome[i].price < 600000000)){
                                     this.result = this.allHome[i]
+                                    this.other = this.allHome[i-1]
                                 } else if((this.smartResult.total >= 0.800 && this.smartResult.total < 1.20 )&& (this.allHome[i].price >= 300000001 && this.allHome[i].price < 370000000)){
                                     this.result = this.allHome[i]
+                                    this.other = this.allHome[i-1]
                                 } else if((this.smartResult.total >= 0.400 && this.smartResult.total < 0.800 )&& (this.allHome[i].price >= 250000001 && this.allHome[i].price <= 300000000)){
                                     this.result = this.allHome[i]
+                                    this.other = this.allHome[i-1]
                                 } else if((this.smartResult.total >= 0.000 && this.smartResult.total < 0.400 )&& (this.allHome[i].price >= 0 && this.allHome[i].price <= 250000000)){
                                     this.result = this.allHome[i]
+                                    this.other = 'Rekomendasi lainnya tidak tersedia'
                                 }
                             }  
-                            // console.log(this.smartResult);
-                            
                         })
                     })
                     .catch(err =>{
